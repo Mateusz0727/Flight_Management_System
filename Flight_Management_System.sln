@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flight_Management_System", "Flight_Management_System\Flight_Management_System.csproj", "{9CA3D17F-DA78-423F-9572-E19854E03690}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flight.Management.System.API", "Flight_Management_System\Flight.Management.System.API.csproj", "{9CA3D17F-DA78-423F-9572-E19854E03690}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flight.Management.System.Data", "Flight.Management.System.Data\Flight.Management.System.Data.csproj", "{FC7E09B4-D4DB-4B9F-B292-224A8950AB14}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9CA3D17F-DA78-423F-9572-E19854E03690}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CA3D17F-DA78-423F-9572-E19854E03690}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CA3D17F-DA78-423F-9572-E19854E03690}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC7E09B4-D4DB-4B9F-B292-224A8950AB14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC7E09B4-D4DB-4B9F-B292-224A8950AB14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC7E09B4-D4DB-4B9F-B292-224A8950AB14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC7E09B4-D4DB-4B9F-B292-224A8950AB14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
