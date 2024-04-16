@@ -1,6 +1,7 @@
 ﻿
 using AutoMapper;
 using Flight.Management.System.API.Models.Airplane;
+using Flight.Management.System.API.Models.Auth;
 using Flight.Management.System.Data.Model;
 
 namespace Flight.Management.System.API.Models
@@ -11,6 +12,7 @@ namespace Flight.Management.System.API.Models
         {
             FlightModels();
             AirplaneModels();
+            UserModels();
         }
 
         protected void FlightModels()
@@ -22,6 +24,11 @@ namespace Flight.Management.System.API.Models
         {
            /* CreateMap<Data.Model.Airplane, AirplaneModel>().ReverseMap().ForMember(x => x.Name, m => m.MapFrom(s => s.Name)).ReverseMap();*/
             CreateMap<Data.Model.Airplane, AirplaneModel>().ReverseMap();
+        }
+        protected void UserModels()
+        {
+              CreateMap<User, RegisterFormModel>().ReverseMap().ForMember(x => x.UserName, m => m.MapFrom(s => s.SurName));
+     
         }
     }
 }

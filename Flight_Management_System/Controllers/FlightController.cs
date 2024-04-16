@@ -1,5 +1,6 @@
 ﻿using Flight.Management.System.API.Models.Flight;
 using Flight.Management.System.API.Services.Flight;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Flight.Management.System.API.Controllers
@@ -44,13 +45,14 @@ namespace Flight.Management.System.API.Controllers
         }
         #endregion
 
+        [Authorize(Policy = "AdminPolicy")]
         [HttpPost]
         public async Task<IActionResult> CreateFlight([FromBody] FlightModel flightModel)
         {
          var entity=   this.flightService.CreateAsync(flightModel);
             return Created($"~/users/{entity.Id}", entity); ;
         }
-
+        [Authorize(Policy = "AdminPolicy")]
         [HttpDelete("id")]
         public async Task<IActionResult> DeleteById(int id)
         {
