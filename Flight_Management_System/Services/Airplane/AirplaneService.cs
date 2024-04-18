@@ -24,12 +24,13 @@ namespace Flight.Management.System.API.Services.Airplane
                 entity.PublicId = Guid.NewGuid().ToString();
                 Context.Add(entity);
                 Context.SaveChanges();
+                return entity;
             }
             catch (Exception ex)
-            {
-
+            {              
+                Console.WriteLine($"Error occurred while creating airplane: {ex.Message}");
+                throw; 
             }
-            return entity;
 
         }
     }

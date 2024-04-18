@@ -18,8 +18,6 @@ namespace Flight.Management.System.API.Services.User
         {
             Data.Model.User entity = Context.Users.FirstOrDefault(x => x.Email == email);
             return entity;
-
-
         }
         public async Task<Data.Model.User> CreateAsync(RegisterFormModel user)
         {
@@ -27,7 +25,7 @@ namespace Flight.Management.System.API.Services.User
             try
             {
                 SetPassword(entity, user.Password);
-                SetEntity(entity);    
+                SetEntity(entity);
                 Context.Add(entity);
                 Context.SaveChanges();
             }
@@ -36,9 +34,9 @@ namespace Flight.Management.System.API.Services.User
                 if (ex.InnerException != null)
                 {
                     if (ex.InnerException.Message.Contains("IX_Email"))
-                        throw new Exception("Podany adres email jest zajęty");
+                        throw new Exception("The email address provided is taken");
                     if (ex.InnerException.Message.Contains("IX_UserName"))
-                        throw new Exception("Podany adres email jest zajęty");
+                        throw new Exception("The email address provided is taken");
                 }
             }
             return entity;

@@ -4,14 +4,12 @@ using Flight.Management.System.API.Configuration;
 using Flight.Management.System.API.Extensions;
 using Flight.Management.System.API.Models;
 using Flight.Management.System.Data.Model;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Drawing;
 var builder = WebApplication.CreateBuilder(args);
 try
 {
@@ -59,7 +57,7 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
 
-   
+
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
         Name = "Authorization",

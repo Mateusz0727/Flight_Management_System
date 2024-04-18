@@ -32,7 +32,7 @@ namespace Flight.Management.System.API.Services.Flight
                 .ToList();
         }
 
-        public FlightData.Flight GetFlight(int id)
+        public async Task< FlightData.Flight >GetFlight(int id)
         {
             return Context.Flight.Where(x => x.Id == id).Include(x => x.Airplane).FirstOrDefault();
         }
@@ -48,9 +48,9 @@ namespace Flight.Management.System.API.Services.Flight
             {
                 var airplane = await this.airplaneService.GetAirplane(entity.Airplane.Id);
                 if(entity.DepartureDate<DateTime.UtcNow)
-                    throw new Exception("Nie można ustawić lotu w przeszłości");
+                    throw new Exception("Invalid date (cannot set date in the past)");
                 if (entity.DeparturePoint.Id == entity.ArrivalPoint.Id)
-                    throw new Exception("Nie można ustawić miejsca odlotu i przylotu tego samego");
+                    throw new Exception("You cannot set the same departure and arrival points");
                 var departurepoint = await this.airportService.GetAirport(entity.DeparturePoint.Id);
                 var arrivalpoint = await this.airportService.GetAirport(entity.ArrivalPoint.Id);
 
@@ -66,22 +66,29 @@ namespace Flight.Management.System.API.Services.Flight
             catch (Exception ex)
             {
                 if (ex.InnerException != null && ex.InnerException.Message.Contains("Airplane"))
-                    throw new Exception("Podany samolot nie istnieje");
+                    throw new Exception("The entered aircraft doesn't exist");
                 if (ex.InnerException != null && ex.InnerException.Message.Contains("FK_Flight_Airport_ArrivalPointId"))
-                    throw new Exception("Podany punkt przylotu nie istnieje");
+                    throw new Exception("The entered arrival point doesn't exist");
                 if (ex.InnerException != null && ex.InnerException.Message.Contains("FK_Flight_Airport_DeparturePointId"))
-                    throw new Exception("Podany punkt odlotu nie istnieje");
+                    throw new Exception("The entered departure point doesn't exist");
                 throw; 
             }
             return entity;
         }
 
 
-        public void DeleteById(int id)
+        public Task DeleteById(int id)
         {
-            var entity = GetFlight(id);
-            Context.Remove(entity);
-            Context.SaveChanges();
+            var entity =  GetFlight(id);
+            if (entity != null)
+            {
+
+                Context.Remove(entity);
+                Context.SaveChanges();
+                return Task.CompletedTask;
+            }
+            else
+                throw new Exception("The specified aircraft doesn't exist");
         }
 
     }

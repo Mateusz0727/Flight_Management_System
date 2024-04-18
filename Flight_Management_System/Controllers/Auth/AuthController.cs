@@ -38,21 +38,26 @@ namespace Flight.Management.System.API.Controllers.Auth
                     }
                     else
                     {
-                        return BadRequest($"wrong password");
+                        return StatusCode(401, "The username or password is incorrect.");
                     }
                 }
-            }
 
-            return StatusCode(401, "[[[Nazwa użytkownika lub hasło są nieprawidłowe.]]]");
+            }
+            return BadRequest(ModelState);
+
         }
         #endregion
         #region Register()
         [HttpPost("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<object> Register([FromBody] RegisterFormModel model)
         {
-
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var entity = _userService.CreateAsync(model);
 
             return Created($"~api/users/{entity.Id}", entity);
