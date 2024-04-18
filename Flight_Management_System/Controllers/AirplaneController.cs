@@ -20,6 +20,7 @@ namespace Flight.Management.System.API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
+      
         public async Task<IActionResult> CreateAirplane([FromBody] AirplaneModel airplaneModel)
         {
             if (!ModelState.IsValid)
@@ -27,8 +28,28 @@ namespace Flight.Management.System.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var entity = await this.airplaneService.CreateAsync(airplaneModel);
-            return CreatedAtAction($"~/users/{entity.Id}", entity);
+            var result = await this.airplaneService.CreateAsync(airplaneModel);
+
+            if (result != null)
+            {
+                return CreatedAtAction(nameof(GetAirplaneById), new { id = result.Id }, result);
+            }
+            else
+            {
+                return StatusCode(500, "An error occurred while processing your request.");
+            }
+        }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetAirplaneById(int id)
+        {
+            var airplane = await this.airplaneService.GetAirplane(id);
+
+            if (airplane == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(airplane);
         }
     }
 }

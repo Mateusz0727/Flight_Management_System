@@ -4,10 +4,11 @@ namespace Flight.Management.System.API.Models.Flight
 {
     public class FlightModel
     {
+        [MaxLength(6)]
         [Required(ErrorMessage = "Flight numeber is required")]
-        public uint FlightNumber { get; set; }
+        public FlightNumber FlightNumber { get; set; }
 
-        [Required(ErrorMessage = "Departure date is required")]
+        [Required(ErrorMessage = "Departure date is required", AllowEmptyStrings = false)]
         public DateTime DepartureDate { get; set; }
 
         [Required(ErrorMessage = "Departure point is required")]

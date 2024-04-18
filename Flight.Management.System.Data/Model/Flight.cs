@@ -4,7 +4,7 @@
     {
         public string PublicId { get; set; }
         public int Id { get; set; }
-        public uint FlightNumber { get; set; }
+        public string FlightNumber { get; set; }
         public DateTime DepartureDate { get; set; }
         public Airport DeparturePoint { get; set; }
         public Airport ArrivalPoint { get; set; }
