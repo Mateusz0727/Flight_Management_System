@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Auth\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Flight.Management.System.Data\Flight.Management.System.Data.csproj" />
   </ItemGroup>
 

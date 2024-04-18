@@ -1,6 +1,6 @@
 ﻿using Flight.Management.System.API.Configuration;
 using Flight.Management.System.API.Models.Auth;
-using Flight.Management.System.API.Services;
+using Flight.Management.System.API.Services.Auth;
 using Flight.Management.System.API.Services.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

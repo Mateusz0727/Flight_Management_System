@@ -4,7 +4,7 @@ using Flight.Management.System.API.Models.Auth;
 using Microsoft.AspNetCore.Identity;
 using System.IdentityModel.Tokens.Jwt;
 
-namespace Flight.Management.System.API.Services
+namespace Flight.Management.System.API.Services.Auth
 {
     public class AuthService
     {

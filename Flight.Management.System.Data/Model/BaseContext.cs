@@ -16,15 +16,19 @@ namespace Flight.Management.System.Data.Model
         public BaseContext()
         {
         }
-        public BaseContext(DbContextOptions<BaseContext> options, IConfiguration configuration)
+         public BaseContext(DbContextOptions<BaseContext> options):base(options)
+        {
+
+        }
+      /*  public BaseContext(DbContextOptions<BaseContext> options, IConfiguration configuration)
            : base(options)
         {
             Configuration = configuration;
             ConnectionString = Configuration.GetConnectionString("DefaultConnectionString");
 
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-            => optionsBuilder.UseSqlServer(ConnectionString);
+        }*/
+       /* protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+            => optionsBuilder.UseSqlServer(ConnectionString);*/
         public virtual DbSet<Airplane> Airplane { get; set; }
         public virtual DbSet<Flight> Flight { get; set; }
         public virtual DbSet<Country> Countries { get; set; }

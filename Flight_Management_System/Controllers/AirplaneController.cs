@@ -28,7 +28,7 @@ namespace Flight.Management.System.API.Controllers
             }
 
             var entity = await this.airplaneService.CreateAsync(airplaneModel);
-            return Created($"~/users/{entity.Id}", entity);
+            return CreatedAtAction($"~/users/{entity.Id}", entity);
         }
     }
 }

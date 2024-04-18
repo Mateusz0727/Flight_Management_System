@@ -1,4 +1,5 @@
-﻿using Flight.Management.System.API.Models.Flight;
+﻿
+using Flight.Management.System.API.Models.Flight;
 using Flight.Management.System.API.Services.Flight;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace Flight.Management.System.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAllFlight()
         {
-            List<Flight.Management.System.Data.Model.Flight> listOfFlight = this.flightService.GetAllFlights();
+            List<Flight.Management.System.Data.Model.Flight> listOfFlight = await this.flightService.GetAllFlights();
             if (listOfFlight.Count == 0)
                 return NoContent();
             return Ok(listOfFlight);
@@ -48,16 +49,17 @@ namespace Flight.Management.System.API.Controllers
         [Authorize(Policy = "AdminPolicy")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
         public async Task<IActionResult> CreateFlight([FromBody] FlightModel flightModel)
         {
             if(!ModelState.IsValid)
-            {
+            {                
                 return BadRequest(ModelState);
             }
-         var entity=   this.flightService.CreateAsync(flightModel);
-            return Created($"~/users/{entity.Id}", entity); ;
+            var entity = await flightService.CreateAsync(flightModel);
+            return CreatedAtAction($"~/users/{entity.Id}", entity);
+           
         }
         [Authorize(Policy = "AdminPolicy")]
         [HttpDelete("id")]
