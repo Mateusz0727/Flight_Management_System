@@ -19,6 +19,12 @@ namespace Flight.Management.System.API.Controllers
         }
         #region get functions
         [HttpGet]
+        /// <summary>
+        /// Retrieves all flights available in the system.
+        /// </summary>
+        /// <returns>
+        /// Returns an HTTP response with status code 200 (OK) along with the list of flights if available.
+        /// If there ar
         public async Task<IActionResult> GetAllFlight()
         {
             List<Flight.Management.System.Data.Model.Flight> listOfFlight = await this.flightService.GetAllFlights();
@@ -28,6 +34,14 @@ namespace Flight.Management.System.API.Controllers
         }
       
         [HttpGet("id")]
+        /// <summary>
+        /// Retrieves flight information by its numerical ID.
+        /// </summary>
+        /// <param name="id">The numerical identifier of the flight to be retrieved.</param>
+        /// <returns>
+        /// Returns an HTTP response with status code 200 (OK) along with the flight object if found.
+        /// Returns an HTTP response with status code 204 (No Content) if the flight is not found.
+        /// </returns>
         public async Task<IActionResult> GetById(int id)
         {
             Flight.Management.System.Data.Model.Flight Flight = await this.flightService.GetFlight(id);
@@ -39,6 +53,14 @@ namespace Flight.Management.System.API.Controllers
         }   
         
         [HttpGet("publicId")]
+        /// <summary>
+        /// Retrieves flight information by its public ID.
+        /// </summary>
+        /// <param name="id">The public identifier of the flight to be retrieved.</param>
+        /// <returns>
+        /// Returns an HTTP response with status code 200 (OK) along with the flight object if found.
+        /// If the flight is not found, the response body will be empty.
+        /// </returns>
         public async Task<IActionResult> GetById(string id)
         {
             Flight.Management.System.Data.Model.Flight Flight = this.flightService.GetFlight(id);
@@ -49,8 +71,14 @@ namespace Flight.Management.System.API.Controllers
         [Authorize(Policy = "AdminPolicy")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(IActionResult), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
+        /// <summary>
+        /// Handles requests to create a new flight.
+        /// </summary>
+        /// <param name="flightModel">The model representing the data of the new flight.</param>
+        /// <returns>Returns a reference to the newly created resource (flight).</returns>
+        /// <remarks>Accessible only to users authorized with the "AdminPolicy" policy.</remarks>
         public async Task<IActionResult> CreateFlight([FromBody] FlightModel flightModel)
         {
             if(!ModelState.IsValid)
@@ -63,6 +91,12 @@ namespace Flight.Management.System.API.Controllers
         }
         [Authorize(Policy = "AdminPolicy")]
         [HttpDelete("id")]
+        /// <summary>
+        /// Deletes a flight by its ID.
+        /// </summary>
+        /// <param name="id">The identifier of the flight to be deleted.</param>
+        /// <returns>Returns an HTTP response with status code 200 (OK) upon successful deletion.</returns>
+        /// <remarks>Accessible only to users authorized with the "AdminPolicy" policy.</remarks>
         public async Task<IActionResult> DeleteById(int id)
         {
           

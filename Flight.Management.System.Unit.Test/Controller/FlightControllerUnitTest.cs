@@ -49,7 +49,7 @@ namespace Flight.Management.System.Unit.Test.Controller
             var _airportService = new AirportService(_mapper, dbContext);
             var emptyFlightService = new FlightService(_mapper, dbContext, _airplaneService, _airportService);
 
-            // Wypełnij bazę danych pustą listą lotów
+          
             dbContext.Flight.RemoveRange(await dbContext.Flight.ToListAsync());
             await dbContext.SaveChangesAsync();
 
@@ -82,27 +82,27 @@ namespace Flight.Management.System.Unit.Test.Controller
                 PublicId = Guid.NewGuid().ToString()
             };
 
-            // Tworzymy nowy samolot
+          
             var airplane = new Airplane
             {
                 Name = "New Airplane",
                 PublicId = Guid.NewGuid().ToString()
             };
 
-            // Dodajemy lotniska i samolot do bazy danych
+           
             dbContext.Airports.Add(airport1);
             dbContext.Airports.Add(airport2);
             dbContext.Airplane.Add(airplane);
             dbContext.SaveChanges();
-            // Dodaj przykładowy lot do bazy danych
+            
             var sampleFlight = new Data.Model.Flight
             {
-                Id = 11, // Identyfikator lotu
-                PublicId = Guid.NewGuid().ToString(), // Unikatowy identyfikator lotu
-                ArrivalPoint = airport1, // Lotnisko docelowe
-                DepartureDate = DateTime.Now.AddDays(1), // Data wylotu (jutro)
-                DeparturePoint = airport2, // Lotnisko wylotu
-                Airplane = airplane // Samolot
+                Id = 11, 
+                PublicId = Guid.NewGuid().ToString(), 
+                ArrivalPoint = airport1,
+                DepartureDate = DateTime.Now.AddDays(1), 
+                DeparturePoint = airport2, 
+                Airplane = airplane 
             };
             dbContext.Flight.Add(sampleFlight);
             await dbContext.SaveChangesAsync();
@@ -114,7 +114,7 @@ namespace Flight.Management.System.Unit.Test.Controller
             var okResult = Assert.IsType<OkObjectResult>(result);
             var returnedFlight = Assert.IsAssignableFrom<Flight.Management.System.Data.Model.Flight>(okResult.Value);
             Assert.Equal(sampleFlight.Id, returnedFlight.Id);
-            // Tutaj można dodać dodatkowe asercje, aby sprawdzić, czy zwracany lot zawiera poprawne dane
+           
         }
         [Fact]
         public async void FlightController_GetFlightById_ReturnsNoContentWhenFlightNotFound()
@@ -126,7 +126,7 @@ namespace Flight.Management.System.Unit.Test.Controller
             var _emptyFlightService = new FlightService(_mapper, dbContext, _airplaneService, _airportService);
             var controller = new FlightController(_emptyFlightService);
 
-            // Identyfikator lotu, który nie istnieje w bazie danych
+          
             int nonExistingFlightId = 999;
 
             // Act
@@ -148,11 +148,11 @@ namespace Flight.Management.System.Unit.Test.Controller
 
             var flightModel = new FlightModel
             {
-                // Ustaw właściwości modelu lotu
-                DepartureDate = DateTime.UtcNow.AddDays(1), // Data w przyszłości
-                DeparturePointId = 1, // Identyfikator punktu wylotu
-                ArrivalPointId = 2, // Identyfikator punktu przylotu
-                AirplaneId = 1 // Identyfikator samolotu
+              
+                DepartureDate = DateTime.UtcNow.AddDays(1), 
+                DeparturePointId = 1, 
+                ArrivalPointId = 2,
+                AirplaneId = 1 
             };
 
             // Act
