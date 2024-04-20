@@ -33,7 +33,11 @@ namespace Flight.Management.System.API.Services.Flight
 
         public async Task<FlightData.Flight> GetFlight(int id)
         {
-            return Context.Flight.Where(x => x.Id == id).Include(x => x.Airplane).FirstOrDefault();
+            return Context.Flight.Where(x => x.Id == id).Include(x => x.Airplane)
+                .Include(x => x.ArrivalPoint)
+                 .ThenInclude(x => x.City).ThenInclude(x => x.Country)
+                .Include(x => x.DeparturePoint)
+                .ThenInclude(x => x.City).ThenInclude(x => x.Country).FirstOrDefault();
         }
         public FlightData.Flight GetFlight(string id)
         {
@@ -102,6 +106,21 @@ namespace Flight.Management.System.API.Services.Flight
             }
         }
 
+        public async Task<FlightData.Flight> Update(int id, FlightModel flightModel)
+        {
+           var existingFlight =await GetFlight(id);
+            if (existingFlight != null)
+            {
+                existingFlight.DeparturePoint =await this.airportService.GetAirport(flightModel.DeparturePointId);
+                existingFlight.ArrivalPoint =await this.airportService.GetAirport(flightModel.ArrivalPointId);
+                existingFlight.Airplane = await this.airplaneService.GetAirplane(flightModel.AirplaneId);
+                existingFlight.DepartureDate = flightModel.DepartureDate;
+                Context.Update(existingFlight);
+                Context.SaveChanges();
+                return existingFlight;
+            }
+            return null;
 
+        }
     }
 }

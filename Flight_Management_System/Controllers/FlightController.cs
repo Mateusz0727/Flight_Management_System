@@ -90,6 +90,24 @@ namespace Flight.Management.System.API.Controllers
            
         }
         [Authorize(Policy = "AdminPolicy")]
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateFlight(int id, [FromBody] FlightModel flightModel)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var entity = await flightService.Update(id, flightModel);
+            if(entity!=null)
+            {
+                return NoContent();
+
+            }
+            return NotFound();
+
+
+        }
+        [Authorize(Policy = "AdminPolicy")]
         [HttpDelete("id")]
         /// <summary>
         /// Deletes a flight by its ID.
