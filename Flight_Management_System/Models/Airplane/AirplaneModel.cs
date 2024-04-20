@@ -9,5 +9,8 @@ namespace Flight.Management.System.API.Models.Airplane
         [Required(ErrorMessage = "The registration number is required.")]
         [RegularExpression(@"^SP-[A-Z]{2}[0-9]{2}$", ErrorMessage = "Invalid registration number format. Example: SP-LR01")]
         public string RegistrationNumber { get; set; }
+
+        [Required(ErrorMessage = "The name of the airplane type is required.")]
+        public string AirplaneTypeId { get; set; }
     }
 }

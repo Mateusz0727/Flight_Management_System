@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Flight.Management.System.Data.Model
 {
-    public class Airplane
+    public class AirplaneType
     {
         public string PublicId { get; set; }
         public int Id { get; set; }
         public string Name { get; set; }
-        public string RegistrationNumber { get; set; }
-        public AirplaneType AirplaneType { get; set; }
+        public char SymbolInRegistrationNumber { get; set; }
+        public uint NumberOfSeats { get; set; }
     }
 }
