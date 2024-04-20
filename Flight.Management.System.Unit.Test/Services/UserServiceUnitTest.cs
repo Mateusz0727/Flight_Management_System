@@ -34,7 +34,8 @@ namespace Flight.Management.System.Unit.Test.Services
         public async Task GetUser_ReturnsUser()
         {
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var _airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper, dbContext);
+            var _airplaneService = new AirplaneService(_mapper, dbContext, airplaneTypeService);
             var _airportService = new AirportService(_mapper, dbContext);
             var _userService = new UserService(_mapper, _passwordHasherMock.Object, dbContext);
 

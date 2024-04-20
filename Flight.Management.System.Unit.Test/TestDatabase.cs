@@ -69,7 +69,7 @@ namespace Flight.Management.System.Unit.Test
                         new Airplane()
                         {
                             Id = i + 1,
-                            Name = "Airplane " + (i + 1),
+                         
                             PublicId = Guid.NewGuid().ToString(),
                         });
                 }

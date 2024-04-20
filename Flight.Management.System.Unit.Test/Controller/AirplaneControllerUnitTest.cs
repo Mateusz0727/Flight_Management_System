@@ -1,5 +1,6 @@
 using AutoMapper;
 using Flight.Management.System.API.Controllers;
+using Flight.Management.System.API.Controllers.Airplane;
 using Flight.Management.System.API.Models;
 using Flight.Management.System.API.Models.Airplane;
 using Flight.Management.System.API.Models.Flight;
@@ -34,13 +35,14 @@ namespace Flight.Management.System.Unit.Test.Controller
         {
             // Arrange
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var _airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper, dbContext);
+            var _airplaneService = new AirplaneService(_mapper, dbContext, airplaneTypeService);
 
             var controller = new AirplaneController(_airplaneService);
 
             var airplane = new AirplaneModel
             {
-                Name = "plane 737"
+                AirplaneTypeId =1
             };
 
             var result = await controller.CreateAirplane(airplane);

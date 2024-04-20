@@ -35,6 +35,7 @@ namespace Flight.Management.System.Data.Model
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Airport> Airports { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<AirplaneType> AirplaneType { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,6 +46,7 @@ namespace Flight.Management.System.Data.Model
             modelBuilder.Entity<City>().ToTable("City");
             modelBuilder.Entity<Airport>().ToTable("Airport");
             modelBuilder.Entity<User>().ToTable("User");
+            modelBuilder.Entity<AirplaneType>().ToTable("AirplaneType");
 
         }
 

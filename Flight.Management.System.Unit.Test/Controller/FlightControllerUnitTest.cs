@@ -32,7 +32,8 @@ namespace Flight.Management.System.Unit.Test.Controller
         public async void FlightController_GetAllFlight_ReturnOK()
         {
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var _airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper, dbContext);
+            var _airplaneService = new AirplaneService(_mapper, dbContext, airplaneTypeService);
             var _airportService = new AirportService(_mapper, dbContext);
             var _flightService = new FlightService(_mapper, dbContext, _airplaneService, _airportService);
             var controller = new FlightController(_flightService);
@@ -45,7 +46,8 @@ namespace Flight.Management.System.Unit.Test.Controller
         public async void FlightController_GetAllFlight_ReturnNoContent()
         {
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var _airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper, dbContext);
+            var _airplaneService = new AirplaneService(_mapper, dbContext, airplaneTypeService);
             var _airportService = new AirportService(_mapper, dbContext);
             var emptyFlightService = new FlightService(_mapper, dbContext, _airplaneService, _airportService);
 
@@ -65,7 +67,8 @@ namespace Flight.Management.System.Unit.Test.Controller
         {
             // Arrange
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var _airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper, dbContext);
+            var _airplaneService = new AirplaneService(_mapper, dbContext, airplaneTypeService);
             var _airportService = new AirportService(_mapper, dbContext);
             var _flightService = new FlightService(_mapper, dbContext, _airplaneService, _airportService);
             var controller = new FlightController(_flightService);
@@ -85,7 +88,6 @@ namespace Flight.Management.System.Unit.Test.Controller
           
             var airplane = new Airplane
             {
-                Name = "New Airplane",
                 PublicId = Guid.NewGuid().ToString()
             };
 
@@ -121,7 +123,8 @@ namespace Flight.Management.System.Unit.Test.Controller
         {
             // Arrange
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var _airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper, dbContext);
+            var _airplaneService = new AirplaneService(_mapper, dbContext, airplaneTypeService);
             var _airportService = new AirportService(_mapper, dbContext);
             var _emptyFlightService = new FlightService(_mapper, dbContext, _airplaneService, _airportService);
             var controller = new FlightController(_emptyFlightService);
@@ -141,7 +144,8 @@ namespace Flight.Management.System.Unit.Test.Controller
         {
             // Arrange
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var _airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper, dbContext);
+            var _airplaneService = new AirplaneService(_mapper, dbContext, airplaneTypeService);
             var _airportService = new AirportService(_mapper, dbContext);
             var _emptyFlightService = new FlightService(_mapper, dbContext, _airplaneService, _airportService);
             var controller = new FlightController(_emptyFlightService);

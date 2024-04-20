@@ -9,9 +9,11 @@ namespace Flight.Management.System.API.Services.Airplane
 {
     public class AirplaneService:BaseService
     {
-        public AirplaneService(IMapper mapper, BaseContext context) : base(mapper, context)
+        private readonly AirplaneTypeService airplaneTypeService;
+
+        public AirplaneService(IMapper mapper, BaseContext context,AirplaneTypeService airplaneTypeService) : base(mapper, context)
         {
-           
+            this.airplaneTypeService = airplaneTypeService;
         }
         public async Task<FlightData.Airplane> GetAirplane(int id)
         {
@@ -22,6 +24,12 @@ namespace Flight.Management.System.API.Services.Airplane
             var entity = Mapper.Map<FlightData.Airplane>(airplaneModel);
             try
             {
+                entity.AirplaneType = await this.airplaneTypeService.GetAirplaneType(airplaneModel.AirplaneTypeId);
+                if (entity.AirplaneType == null)
+                    throw new Exception("This airplane type doesn't exist");
+              
+                entity.RegistrationNumber= await CreateRegistrationNumber(entity);
+                entity.AirplaneType = await this.airplaneTypeService.GetAirplaneType(airplaneModel.AirplaneTypeId);
                 entity.PublicId = Guid.NewGuid().ToString();
                 Context.Add(entity);
                 Context.SaveChanges();
@@ -29,12 +37,16 @@ namespace Flight.Management.System.API.Services.Airplane
             }
             catch (Exception ex)
             {              
-                Console.WriteLine($"Error occurred while creating airplane: {ex.Message}");
+                throw new Exception($"Error occurred while creating airplane: {ex.Message}");
                 throw; 
             }
 
         }
+        public async Task<string> CreateRegistrationNumber(FlightData.Airplane entity)
+        {
 
+           return "SP-L" + entity.AirplaneType.SymbolInRegistrationNumber.ToString() +  this.airplaneTypeService.GetNextAlphabetLetterForAirplaneType(entity.AirplaneType.Id);
+        }
        
     }
 }

@@ -3,7 +3,7 @@ using Flight.Management.System.API.Services.Airplane;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Flight.Management.System.API.Controllers
+namespace Flight.Management.System.API.Controllers.Airplane
 {
     [Authorize(Policy = "AdminPolicy")]
     [ApiController]
@@ -37,7 +37,7 @@ namespace Flight.Management.System.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await this.airplaneService.CreateAsync(airplaneModel);
+            var result = await airplaneService.CreateAsync(airplaneModel);
 
             if (result != null)
             {
@@ -59,7 +59,7 @@ namespace Flight.Management.System.API.Controllers
         /// </returns>
         public async Task<IActionResult> GetAirplaneById(int id)
         {
-            var airplane = await this.airplaneService.GetAirplane(id);
+            var airplane = await airplaneService.GetAirplane(id);
 
             if (airplane == null)
             {

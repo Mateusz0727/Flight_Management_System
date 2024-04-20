@@ -36,7 +36,8 @@ namespace Flight.Management.System.Unit.Test.Services
         public async Task GetAllFlight_ReturnsListOfFlights()
         {
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var _airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper, dbContext);
+            var _airplaneService = new AirplaneService(_mapper, dbContext, airplaneTypeService);
             var _airportService = new AirportService(_mapper, dbContext);
             var _flightService = new FlightService(_mapper, dbContext, _airplaneService, _airportService);
             // Arrange
@@ -56,7 +57,8 @@ namespace Flight.Management.System.Unit.Test.Services
         {
             // Arrange
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var _airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper, dbContext);
+            var _airplaneService = new AirplaneService(_mapper, dbContext, airplaneTypeService);
             var _airportService = new AirportService(_mapper, dbContext);
             var _flightService = new FlightService(_mapper, dbContext, _airplaneService, _airportService);
 
@@ -76,7 +78,6 @@ namespace Flight.Management.System.Unit.Test.Services
           
             var airplane = new Airplane
             {
-                Name = "New Airplane",
                 PublicId = Guid.NewGuid().ToString()
             };
 
@@ -121,7 +122,8 @@ namespace Flight.Management.System.Unit.Test.Services
             };
 
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper, dbContext);
+            var airplaneService = new AirplaneService(_mapper, dbContext, airplaneTypeService);
             var airportService = new AirportService(_mapper, dbContext);
             var flightService = new FlightService(_mapper, dbContext, airplaneService, airportService);
 
@@ -159,7 +161,8 @@ namespace Flight.Management.System.Unit.Test.Services
 
 
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper,dbContext);
+            var airplaneService = new AirplaneService(_mapper, dbContext,airplaneTypeService);
             var airportService = new AirportService(_mapper, dbContext);
             var flightService = new FlightService(_mapper, dbContext, airplaneService, airportService);
 
@@ -177,7 +180,8 @@ namespace Flight.Management.System.Unit.Test.Services
             // Arrange
             int existingFlightId = 1; 
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper, dbContext);
+            var airplaneService = new AirplaneService(_mapper, dbContext, airplaneTypeService);
             var airportService = new AirportService(_mapper, dbContext);
             var flightService = new FlightService(_mapper, dbContext, airplaneService, airportService);
 
@@ -197,7 +201,8 @@ namespace Flight.Management.System.Unit.Test.Services
             // Arrange
             int nonExistingFlightId = 999; 
             var dbContext = await _testDatabase.GetDatabaseContext();
-            var airplaneService = new AirplaneService(_mapper, dbContext);
+            var airplaneTypeService = new AirplaneTypeService(_mapper, dbContext);
+            var airplaneService = new AirplaneService(_mapper, dbContext, airplaneTypeService);
             var airportService = new AirportService(_mapper, dbContext);
             var flightService = new FlightService(_mapper, dbContext, airplaneService, airportService);
             var controller = new FlightController(flightService);

@@ -13,22 +13,25 @@ namespace Flight.Management.System.API.Models
             FlightModels();
             AirplaneModels();
             UserModels();
+            AirplaneTypeModels();
         }
 
         protected void FlightModels()
         {
-          //  CreateMap<User, RegisterFormModel>().ReverseMap().ForMember(x => x.UserName, m => m.MapFrom(s => s.SurName));
-            CreateMap<Data.Model.Flight, Flight.FlightModel>().ReverseMap();
+           CreateMap<Data.Model.Flight, Flight.FlightModel>().ReverseMap();
         }
         protected void AirplaneModels()
         {
-           /* CreateMap<Data.Model.Airplane, AirplaneModel>().ReverseMap().ForMember(x => x.Name, m => m.MapFrom(s => s.Name)).ReverseMap();*/
             CreateMap<Data.Model.Airplane, AirplaneModel>().ReverseMap();
         }
         protected void UserModels()
         {
               CreateMap<User, RegisterFormModel>().ReverseMap().ForMember(x => x.UserName, m => m.MapFrom(s => s.SurName));
      
+        }
+        protected void AirplaneTypeModels()
+        {
+             CreateMap<Data.Model.AirplaneType, AirplaneTypeFormModel>().ReverseMap();
         }
     }
 }
