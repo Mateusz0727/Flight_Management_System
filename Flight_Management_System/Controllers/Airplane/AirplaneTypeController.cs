@@ -36,6 +36,16 @@ namespace Flight.Management.System.API.Controllers.Airplane
         [ProducesDefaultResponseType]
         public async Task<IActionResult> CreateAirplaneType([FromBody] AirplaneTypeFormModel airplaneTypeFormModel)
         {
+            if (airplaneTypeFormModel == null)
+            {
+                return BadRequest("Airplane type model cannot be null.");
+            }
+
+            if (airplaneTypeFormModel.Name == null || airplaneTypeFormModel.SymbolInRegistrationNumber == default(char) || airplaneTypeFormModel.NumberOfSeats == 0)
+            {
+                ModelState.AddModelError("", "All fields are required and cannot be null.");
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

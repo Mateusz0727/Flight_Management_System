@@ -33,7 +33,7 @@ namespace Flight.Management.System.API.Services.Flight
 
         public async Task<FlightData.Flight> GetFlight(int id)
         {
-            return Context.Flight.Where(x => x.Id == id).Include(x => x.Airplane)
+            return Context.Flight.Where(x => x.Id == id).Include(x => x.Airplane).ThenInclude(x=>x.AirplaneType)
                 .Include(x => x.ArrivalPoint)
                  .ThenInclude(x => x.City).ThenInclude(x => x.Country)
                 .Include(x => x.DeparturePoint)
@@ -66,7 +66,7 @@ namespace Flight.Management.System.API.Services.Flight
                 var arrivalpoint = await this.airportService.GetAirport(entity.ArrivalPoint.Id);
                 if (arrivalpoint == null)
                     throw new Exception("The entered arrival point doesn't exist");
-                entity.FlightNumber = flightModel.FlightNumber.AirlineCode+flightModel.FlightNumber.ToString();
+                entity.FlightNumber = flightModel.FlightNumber;
                 entity.DeparturePoint = departurepoint;
                 entity.ArrivalPoint = arrivalpoint;
                 entity.Airplane = airplane;

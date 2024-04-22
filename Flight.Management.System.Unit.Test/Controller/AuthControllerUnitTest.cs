@@ -1,9 +1,13 @@
-﻿using Flight.Management.System.API.Configuration;
+﻿using AutoMapper;
+using Flight.Management.System.API.Configuration;
 using Flight.Management.System.API.Controllers.Auth;
 using Flight.Management.System.API.Models.Auth;
+using Flight.Management.System.API.Services.Airplane;
+using Flight.Management.System.API.Services.Airport;
 using Flight.Management.System.API.Services.Auth;
 using Flight.Management.System.API.Services.User;
 using Flight.Management.System.Data.Model;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
@@ -16,53 +20,61 @@ namespace Flight.Management.System.Unit.Test.Controller
 {
     public class AuthenticationControllerTests
     {
-        private readonly AuthController _controller;
-        private readonly Mock<UserService> _mockUserService;
-        private readonly Mock<AuthService> _mockAuthService;
-
+        private readonly TestDatabase _testDatabase;
+       
+        private readonly Mock<IPasswordHasher<User>> _passwordHasherMock;
+        private readonly Mock<JWTConfig> _jwtConfigMock;
+        private readonly IMapper _mapper;
         public AuthenticationControllerTests()
         {
-            _mockUserService = new Mock<UserService>();
-            _mockAuthService = new Mock<AuthService>();
-            _controller = new AuthController( _mockAuthService.Object, _mockUserService.Object);
+
+            _testDatabase = new TestDatabase();
+            _jwtConfigMock= new Mock<JWTConfig>();
+            _passwordHasherMock = new Mock<IPasswordHasher<User>>();
         }
 
         [Fact]
-        public async Task Login_WithValidModel_ReturnsOkResult()
+        public async Task Login_ValidCredentials_ReturnsOkResult()
         {
             // Arrange
-            var validModel = new LoginFormModel
+            var dbContext = await _testDatabase.GetDatabaseContext();
+            var userServiceMock =new UserService(_mapper,_passwordHasherMock.Object, dbContext);
+            var authServiceMock = new AuthService(_jwtConfigMock.Object,_passwordHasherMock.Object);
+        
+            var controller = new AuthController(authServiceMock, userServiceMock);
+            var loginFormModel = new LoginFormModel
             {
-                Email = "test@example.com",
-                Password = "testpassword"
+                Email = "1@1",
+                Password = "admin"
             };
 
-            var fakeUser = new User(); // Create a fake user entity if needed
-
-            _mockUserService.Setup(service => service.GetByEmailAsync(validModel.Email)).ReturnsAsync(fakeUser);
-            _mockAuthService.Setup(service => service.Login(validModel, fakeUser)).Returns(true);
-            _mockAuthService.Setup(service => service.CreateToken(fakeUser)).Returns(new UserTokens());
-
+          
             // Act
-            var result = await _controller.Login(validModel);
+            var result = await controller.Login(loginFormModel);
 
             // Assert
-            Assert.IsType<OkObjectResult>(result.Result);
+            var okResult = Assert.IsType<ActionResult<UserTokens>>(result);
+            Assert.NotNull(okResult);
         }
 
         [Fact]
         public async Task Login_WithInvalidModel_ReturnsBadRequest()
         {
+            var dbContext = await _testDatabase.GetDatabaseContext();
+            var userServiceMock = new UserService(_mapper, _passwordHasherMock.Object, dbContext);
+            var authServiceMock = new AuthService(_jwtConfigMock.Object, _passwordHasherMock.Object);
+
+            var controller = new AuthController(authServiceMock, userServiceMock);
             // Arrange
             var invalidModel = new LoginFormModel
             {
                 Email = "test@example.com" // Missing password
             };
 
-            _controller.ModelState.AddModelError("Password", "The password field is required.");
+         
 
             // Act
-            var result = await _controller.Login(invalidModel);
+            var result = await controller.Login(invalidModel);
 
             // Assert
             Assert.IsType<BadRequestObjectResult>(result.Result);

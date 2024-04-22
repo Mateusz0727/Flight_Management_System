@@ -41,7 +41,7 @@ namespace Flight.Management.System.Unit.Test.Services
 
             var user = new User
             {
-                Id = 1,
+                Id = 7,
                 DateCreatedUtc = DateTime.Now,
                 DateModifiedUtc = DateTime.Now,
                 Surname = "user " + 1,

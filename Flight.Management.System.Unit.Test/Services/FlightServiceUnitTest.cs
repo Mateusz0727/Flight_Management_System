@@ -62,33 +62,62 @@ namespace Flight.Management.System.Unit.Test.Services
             var _airportService = new AirportService(_mapper, dbContext);
             var _flightService = new FlightService(_mapper, dbContext, _airplaneService, _airportService);
 
-          
+            var country = new Country
+            {
+                CountryName = "country 1",
+                PublicId = Guid.NewGuid().ToString()
+            };
+            var city = new City
+            {
+                CityName = "A",
+                Country = country,
+                PublicId = Guid.NewGuid().ToString()
+            };
+            var city2 = new City
+            {
+                CityName = "B",
+                Country = country,
+                PublicId = Guid.NewGuid().ToString()
+            };
             var airport1 = new Airport
             {
                 AirportName = "Airport 1",
-                PublicId = Guid.NewGuid().ToString()
+                PublicId = Guid.NewGuid().ToString(),
+                City=city
             };
 
             var airport2 = new Airport
             {
+                City = city2,
                 AirportName = "Airport 2",
                 PublicId = Guid.NewGuid().ToString()
             };
-
+            var airplaneType = new AirplaneType
+            {
+                PublicId = Guid.NewGuid().ToString(),
+                SymbolInRegistrationNumber = 'Z',
+                NumberOfSeats = 100,
+                Name = "Boeing737"
+            };
           
             var airplane = new Airplane
             {
+                RegistrationNumber = "SP-L" +airplaneType.SymbolInRegistrationNumber+"A",
+                AirplaneType=airplaneType,
                 PublicId = Guid.NewGuid().ToString()
             };
 
          
             dbContext.Airports.Add(airport1);
             dbContext.Airports.Add(airport2);
+            dbContext.AirplaneType.Add(airplaneType);
             dbContext.Airplane.Add(airplane);
             dbContext.SaveChanges();
 
             var newFlight = new Data.Model.Flight
             {
+
+                FlightNumber = "AA999",
                 Id = 11, 
                 PublicId = Guid.NewGuid().ToString(), 
                 ArrivalPoint = airport1,
@@ -114,7 +143,7 @@ namespace Flight.Management.System.Unit.Test.Services
             // Arrange
             var flightModel = new FlightModel
             {
-              
+                FlightNumber = "AA999",
                 DepartureDate = DateTime.UtcNow.AddDays(1), 
                 DeparturePointId = 1, 
                 ArrivalPointId = 2,

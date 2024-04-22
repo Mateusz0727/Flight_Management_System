@@ -3,7 +3,9 @@ using AutoMapper;
 using Flight.Management.System.API.Configuration;
 using Flight.Management.System.API.Extensions;
 using Flight.Management.System.API.Models;
+using Flight.Management.System.API.Models.Airplane;
 using Flight.Management.System.Data.Model;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -34,7 +36,7 @@ builder.Services.AddSingleton(mapper);
 
 
 #endregion
-builder.Services.AddControllers();
+builder.Services.AddControllers(options => options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
 builder.Services.RegisterServices();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -106,6 +108,8 @@ builder.Services.AddAuthentication(options =>
         ClockSkew = TimeSpan.FromDays(1),
     };
 });
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

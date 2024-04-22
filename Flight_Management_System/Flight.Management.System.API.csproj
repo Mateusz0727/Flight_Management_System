@@ -7,7 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Extensions\Validate\**" />
+    <Content Remove="Extensions\Validate\**" />
+    <EmbeddedResource Remove="Extensions\Validate\**" />
+    <None Remove="Extensions\Validate\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
+    <PackageReference Include="FluentValidation" Version="11.9.0" />
+    <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.design" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
